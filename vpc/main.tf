@@ -18,10 +18,16 @@ resource "aws_subnet" "sub_private" {
     availability_zone = data.aws_availability_zones.zones.names[0]
 }
 
+resource "aws_subnet" "sub_db_2" {
+    vpc_id = aws_vpc.vpc.id
+    cidr_block = var.db_second_subnet
+    availability_zone = data.aws_availability_zones.zones.names[1]
+}
+
 resource "aws_subnet" "sub_public" {
     vpc_id = aws_vpc.vpc.id
     cidr_block = var.sub_public_cidr
-    availability_zone = data.aws_availability_zones.zones.names[1]
+    availability_zone = data.aws_availability_zones.zones.names[2]
 }
 
 resource "aws_route_table" "public_route" {
@@ -46,6 +52,11 @@ resource "aws_route_table_association" "private_rt_assoc" {
     subnet_id = aws_subnet.sub_private.id
 }
 
+resource "aws_route_table_association" "private_rt_assoc_db" {
+    route_table_id = aws_route_table.private_route.id
+    subnet_id = aws_subnet.sub_db_2.id
+}
+
 resource "aws_security_group" "app" {
     name = "app"
     description = "App server that use fast api and sql alchemy"
@@ -64,7 +75,7 @@ resource "aws_security_group" "app" {
         from_port = "3306"
         to_port = "3306"
         protocol = "tcp"
-        cidr_blocks = [var.sub_private_cidr]
+        cidr_blocks = [var.sub_private_cidr, var.db_second_subnet]
     }
 }
 
@@ -100,6 +111,6 @@ resource "aws_security_group" "db" {
         from_port = "3306"
         to_port = "3306"
         protocol = "tcp"
-        cidr_blocks = [var.sub_private_cidr]
+        cidr_blocks = [var.sub_private_cidr, var.db_second_subnet]
     }
 }

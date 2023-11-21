@@ -1,5 +1,4 @@
 
-
 variable "vpc_cidr" {
     description = "CIDR block"
     type = string
@@ -17,4 +16,10 @@ variable "sub_public_cidr" {
     description = "CIDR block"
     type = string
     default = "10.0.2.0/24"
+}
+
+variable "db_second_subnet" {
+    description = "CIDR block"
+    type = string
+    default = "10.0.3.0/24"
 }

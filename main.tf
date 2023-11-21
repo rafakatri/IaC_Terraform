@@ -19,6 +19,8 @@ module "ec2" {
 
 module "rds" {
   source = "./rds"
+  vpc_security_group_ids_var = [module.vpc.db_security_group]
+  subnet_ids_var = module.vpc.sub_private
 }
 
 module "s3" {
