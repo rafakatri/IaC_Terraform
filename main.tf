@@ -9,9 +9,11 @@ terraform {
   }
 
   backend "s3" {
-    bucket = "state"
+    bucket = "terraform-bucket-rk"
     key   = "dev/terraform.tfstate"
     region = "us-east-1"
+    encrypt        = true
+    dynamodb_table = "rk-terraform-state-lock"
   }
 
 }
@@ -33,8 +35,4 @@ module "rds" {
   source = "./rds"
   vpc_security_group_ids_var = [module.vpc.db_security_group]
   subnet_ids_var = module.vpc.sub_private
-}
-
-module "s3" {
-  source = "./s3"
 }
