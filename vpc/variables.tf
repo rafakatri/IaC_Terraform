@@ -18,6 +18,12 @@ variable "sub_public_cidr" {
     default = "10.0.2.0/24"
 }
 
+variable "sub_public_cidr_2" {
+    description = "CIDR block"
+    type = string
+    default = "10.0.4.0/24"
+}
+
 variable "db_second_subnet" {
     description = "CIDR block"
     type = string

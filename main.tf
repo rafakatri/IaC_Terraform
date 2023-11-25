@@ -4,9 +4,16 @@ terraform {
   required_providers {
     aws = {
       source = "hashicorp/aws"
-      version = "~> 3.0"
+      version = "5.26.0"
     }
   }
+
+  backend "s3" {
+    bucket = "state"
+    key   = "dev/terraform.tfstate"
+    region = "us-east-1"
+  }
+
 }
 
 module "vpc" {
@@ -15,6 +22,11 @@ module "vpc" {
 
 module "ec2" {
   source = "./ec2"
+  app_security_group = [module.vpc.app_security_group]
+  lb_security_group = [module.vpc.lb_security_group]
+  rds_endpoint = module.rds.db_ip
+  vpc_id = module.vpc.vpc_id
+  subnet_lb_ids = module.vpc.sub_public  
 }
 
 module "rds" {
