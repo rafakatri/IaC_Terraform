@@ -1,5 +1,5 @@
 
-output "db_ip" {
- description = "The connection endpoint for the DB instance without the port"
- value     = element(split(":", aws_db_instance.db.endpoint), 0)
+output "rds_endpoint" {
+ description = "The endpoint of the RDS instance"
+ value     = aws_db_instance.db.address
 }
