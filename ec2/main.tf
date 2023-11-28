@@ -16,7 +16,7 @@ resource "aws_launch_configuration" "launch" {
 resource aws_autoscaling_group "apps" {
   launch_configuration = aws_launch_configuration.launch.id
   min_size = 1
-  max_size = 3
+  max_size = 5
   desired_capacity = 2
   vpc_zone_identifier = var.subnet_lb_ids
 
@@ -105,7 +105,7 @@ resource "aws_iam_role_policy_attachment" "ec2_policy_attachment" {
 }
 
 resource "aws_autoscaling_policy" "asg_policy_up" {
-  name                 = "asg_policy"
+  name                 = "asg_policy_up"
   autoscaling_group_name = aws_autoscaling_group.apps.name
   adjustment_type       = "ChangeInCapacity"
   scaling_adjustment    = 1
@@ -113,7 +113,7 @@ resource "aws_autoscaling_policy" "asg_policy_up" {
 }
 
 resource "aws_autoscaling_policy" "asg_policy_down" {
-  name                 = "asg_policy"
+  name                 = "asg_policy_down"
   autoscaling_group_name = aws_autoscaling_group.apps.name
   adjustment_type       = "ChangeInCapacity"
   scaling_adjustment    = -1
@@ -129,7 +129,7 @@ resource "aws_cloudwatch_metric_alarm" "highCPU" {
   namespace          = "AWS/EC2"
   period             = "120"
   statistic          = "Average"
-  threshold          = "70"
+  threshold          = "10"
   alarm_description  = "This metric checks cpu utilization"
   alarm_actions      = [aws_autoscaling_policy.asg_policy_up.arn]
   dimensions = {
@@ -145,7 +145,7 @@ resource "aws_cloudwatch_metric_alarm" "lowCPU" {
   namespace          = "AWS/EC2"
   period             = "120"
   statistic          = "Average"
-  threshold          = "10"
+  threshold          = "5"
   alarm_description  = "This metric checks cpu utilization"
   alarm_actions      = [aws_autoscaling_policy.asg_policy_down.arn]
   dimensions = {
@@ -172,7 +172,7 @@ resource "aws_lb_target_group" "target" {
     port               = 80
     interval           = 30
     protocol           = "HTTP"
-    path               = "/"
+    path               = "/docs"
     matcher            = "200"
     healthy_threshold  = 3
     unhealthy_threshold = 3
