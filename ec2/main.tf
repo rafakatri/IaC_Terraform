@@ -1,6 +1,6 @@
 
 resource "aws_launch_configuration" "launch" {
-  name = "apps"
+  name = "apps-katri"
   image_id = "ami-04cedafa3de954d3b"
   instance_type = "t2.micro"
   user_data = templatefile("./ec2/config.sh", { rds_endpoint = var.rds_endpoint})
@@ -39,7 +39,7 @@ resource aws_autoscaling_group "apps" {
 
 
 resource "aws_iam_role" "ec2_role" {
-  name = "ec2_role"
+  name = "ec2_role-katri"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17",
@@ -56,7 +56,7 @@ resource "aws_iam_role" "ec2_role" {
 }
 
 resource "aws_iam_policy" "ec2_policy" {
-  name        = "ec2-cloudwatch-policy"
+  name        = "ec2-cloudwatch-policy-katri"
   description = "A policy that allows EC2 instances to log to CloudWatch, access RDS information, and retrieve secrets."
 
   policy = jsonencode({
@@ -95,7 +95,7 @@ resource "aws_iam_policy" "ec2_policy" {
 }
 
 resource "aws_iam_instance_profile" "ec2_profile" {
-  name = "ec2_profile"
+  name = "ec2_profile-katri"
   role = aws_iam_role.ec2_role.name
 }
 
@@ -105,7 +105,7 @@ resource "aws_iam_role_policy_attachment" "ec2_policy_attachment" {
 }
 
 resource "aws_autoscaling_policy" "asg_policy_up" {
-  name                 = "asg_policy_up"
+  name                 = "asg_policy_up-katri"
   autoscaling_group_name = aws_autoscaling_group.apps.name
   adjustment_type       = "ChangeInCapacity"
   scaling_adjustment    = 1
@@ -113,7 +113,7 @@ resource "aws_autoscaling_policy" "asg_policy_up" {
 }
 
 resource "aws_autoscaling_policy" "asg_policy_down" {
-  name                 = "asg_policy_down"
+  name                 = "asg_policy_down-katri"
   autoscaling_group_name = aws_autoscaling_group.apps.name
   adjustment_type       = "ChangeInCapacity"
   scaling_adjustment    = -1
@@ -122,7 +122,7 @@ resource "aws_autoscaling_policy" "asg_policy_down" {
 
 
 resource "aws_cloudwatch_metric_alarm" "highCPU" {
-  alarm_name         = "highCPU"
+  alarm_name         = "highCPU-katri"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   evaluation_periods = "2"
   metric_name        = "CPUUtilization"
@@ -138,7 +138,7 @@ resource "aws_cloudwatch_metric_alarm" "highCPU" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "lowCPU" {
-  alarm_name         = "lowCPU"
+  alarm_name         = "lowCPU-katri"
   comparison_operator = "LessThanThreshold"
   evaluation_periods = "2"
   metric_name        = "CPUUtilization"
@@ -155,7 +155,7 @@ resource "aws_cloudwatch_metric_alarm" "lowCPU" {
 
 
 resource "aws_lb" "loadBalancer" {
-  name               = "lb"
+  name               = "lb-katri"
   internal           = false
   load_balancer_type = "application"
   security_groups    = var.lb_security_group
@@ -163,7 +163,7 @@ resource "aws_lb" "loadBalancer" {
 }
 
 resource "aws_lb_target_group" "target" {
-  name      = "target"
+  name      = "target-katri"
   port      = 80
   protocol  = "HTTP"
   vpc_id    = var.vpc_id

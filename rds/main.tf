@@ -1,6 +1,6 @@
 
 resource "aws_db_subnet_group" "db_group" {
-    name = "subnet_group"
+    name = "subnet_group-katri"
     description = "Academia Database"
     subnet_ids = var.subnet_ids_var
 }

@@ -72,7 +72,7 @@ resource "aws_route_table_association" "private_rt_assoc_db" {
 }
 
 resource "aws_security_group" "app" {
-    name = "app"
+    name = "app-katri"
     description = "App server that use fast api and sql alchemy"
     vpc_id = aws_vpc.vpc.id
 
@@ -94,7 +94,7 @@ resource "aws_security_group" "app" {
 }
 
 resource "aws_security_group" "lb" {
-    name = "load_balancer"
+    name = "load_balancer-katri"
     description = "Load balancer to app servers"
     vpc_id = aws_vpc.vpc.id
 
@@ -116,7 +116,7 @@ resource "aws_security_group" "lb" {
 }
 
 resource "aws_security_group" "db" {
-    name = "db"
+    name = "db-katri"
     description = "MySQL database"
     vpc_id = aws_vpc.vpc.id
 
