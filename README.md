@@ -2,11 +2,11 @@
 
 ## Clonar repositório
 
-* O repositório é público e se encontra nesse link.
+* O repositório é público e se encontra nesse [link](https://github.com/rafakatri/IaaS_Terraform.git).
 
 ## Instalar Terraform
 
-* Um guia feito pela HashiCorp se encontra nesse link.
+* Um guia feito pela HashiCorp se encontra nesse [link](https://developer.hashicorp.com/terraform/install).
 
 * Siga os passos recomendados para o seu sistema operacional.
 
@@ -14,7 +14,7 @@
 
 * Recomenda-se instalar o AWS CLI para gerenciar credenciais.
 
-* Acesse esse site e siga as recomendações para seu sistema operacional. 
+* Acesse esse [site](https://aws.amazon.com/pt/cli/) e siga as recomendações para seu sistema operacional. 
 
 * O Terraform também aceita por padrão credenciais no diretório "~/.aws" ou "C:\Users\username\.aws" ou descritas em variáveis de ambiente, mas é preferível usar o AWS CLI.
 
