@@ -1,5 +1,17 @@
 # Guia de instalação
 
+## Objetivo
+
+* Usar código terraform para prover uma infraestrutura na AWS
+
+* A infraestrutura deve ser capaz de manter um CRUD FastAPI que comunica com uma base de dados MySQL
+
+* A infraestrutura deve ser escalável e instanciar novas EC2 em casos de sobrecarga
+
+* Devem ser coletados Logs com dados relevantes de recursos da infra
+
+#### Para mais detalhes, confira o documento PDF que descreve o projeto 
+
 ## Clonar repositório
 
 * O repositório é público e se encontra nesse [link](https://github.com/rafakatri/IaaS_Terraform.git).
